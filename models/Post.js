@@ -10,11 +10,6 @@ const PostSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  status: {
-    type: String,
-    default: "public",
-    enum: ["public", "private"],
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

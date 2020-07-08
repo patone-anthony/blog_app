@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const passport = require("passport");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
@@ -17,9 +18,16 @@ connectDB();
 
 const app = express();
 
+// Passport Config
+require("./config/passport")(passport);
+
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Method Override
 app.use(
@@ -57,37 +65,46 @@ app.engine(
   })
 );
 
+app.set("secretKey", "nodeRestApi");
 app.set("view engine", ".hbs");
-
 app.use(flash());
 
-// Express-session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  })
-);
+// config express-session
+var sess = {
+  secret: "CHANGE THIS TO A RANDOM SECRET",
+  cookie: { _expires: 24 * 60 * 60 * 1000 /* 24 hours*/ },
+  resave: false,
+  saveUninitialized: true,
+};
 
-// Passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
+if (app.get("env") === "production") {
+  // Use secure cookies in production (requires SSL/TLS)
+  sess.cookie.secure = true;
+}
+
+// Static folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// Passport Middleware
+app.use(session(sess));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set global var
 app.use(function (req, res, next) {
   res.locals.user = req.user || null;
+  // res.locals.username = req.user.username || null;
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  console.log(typeof req.user);
   next();
 });
 
 // Routes
 app.use("/", require("./routes/index"));
-// app.use("/auth", require("./routes/auth"));
-// app.use("/posts", require("./routes/posts"));
-
-// Static folder
-app.use(express.static(path.join(__dirname, "public")));
+app.use("/auth", require("./routes/auth"));
+app.use("/posts", require("./routes/posts"));
 
 const PORT = process.env.PORT || 3000;
 

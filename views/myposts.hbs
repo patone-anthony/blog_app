@@ -1,37 +1,16 @@
-<h6>Dashboard</h6>
-<h3>Welcome {{ name }}</h3>
-<p>Here are your posts</p>
-{{#if posts}}
-<table class="striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each posts}}
-        <tr>
-            <td><a href="/stories/edit/{{_id}}">{{title}}</a></td>
-            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
-            <td><span class="dash-status"></span></td>
-            <td>
-                <a href="/stories/edit/{{_id}}" class="btn btn-float">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <form action="stories/{{_id}}" method="POST" id="delete_form">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn red">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-{{else}}
-<p>You have not created any stories</p>
-{{/if}}
+<h1 class="mt-4">My posts</h1>
+<p class="lead mb-3">Welcome {{username}}</p>
+<a href="/users/logout" class="btn btn-secondary">Create a New Post</a>
+
+<div class="container">
+    {{#each people}}
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {{/each}}
+</div>

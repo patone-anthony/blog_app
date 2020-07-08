@@ -1,16 +1,15 @@
-
 module.exports = {
-    ensureAuth: function (req, res, next) {
-      if (req.isAuthenticated()) {
-        return next()
-      } else {
-        res.redirect('/')
-      }
-    },
-    ensureGuest: function (req, res, next) {
-      if (req.isAuthenticated()) {
-        res.redirect('/homepage')
-      } else {
-        return next()
-      }
+  ensureAuthenticated: function (req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
     }
+    req.flash("error_msg", "Please log in to view that resource");
+    res.redirect("/users/login");
+  },
+  forwardAuthenticated: function (req, res, next) {
+    if (!req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect("/myposts");
+  },
+};
