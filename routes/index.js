@@ -9,6 +9,9 @@ const Post = require("../models/Post");
 // @route   Get /
 router.get("/", async (req, res) => {
   try {
+    if (req.user) {
+      console.log(req.user);
+    }
     const posts = await Post.find({}).populate("user").sort({ createdAt: "desc" }).lean();
     res.render("home", {
       posts,

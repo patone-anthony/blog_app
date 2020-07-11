@@ -55,7 +55,6 @@ router.post(
     // Finds the validation errors in this request and wraps them in an object
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors);
       res.render("auth/register", { errors: errors.array() });
     } else {
       let user = new User({
@@ -92,7 +91,7 @@ router.post("/login", (req, res, next) => {
 router.get("/logout", (req, res, next) => {
   req.logout();
   req.flash("success_msg", "You are logged out");
-  res.render("auth/login");
+  res.redirect("/auth/login");
 });
 
 module.exports = router;

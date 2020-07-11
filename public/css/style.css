@@ -179,8 +179,45 @@ a:hover {
   margin: 0.4rem;
 }
 
+.center_div {
+  margin: 0 auto;
+  width: 60%; /* value of your choice which suits your alignment */
+  text-align: center;
+}
+
+.text-area {
+  width: 100%;
+}
+
+.post-title {
+  width: 70%;
+}
+
+.post-title > input {
+  width: 70%;
+}
+
+.post-container {
+  background: rgb(231, 231, 231);
+  border-radius: 50px;
+  width: 80%;
+  box-shadow: 5px 5px 5px rgb(189, 189, 189);
+  padding: 2rem;
+  margin: 2rem;
+}
+
+.post-container h3 {
+  margin-bottom: 1rem;
+}
+
 @media (max-width: 768px) {
   .hideBlock {
     display: none !important;
+  }
+
+  .center_div {
+    margin: 0 auto;
+    width: 90%; /* value of your choice which suits your alignment */
+    text-align: center;
   }
 }

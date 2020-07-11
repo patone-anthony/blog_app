@@ -1,9 +1,9 @@
 <h1 class="mt-4">My posts</h1>
 <p class="lead mb-3">Welcome {{username}}</p>
-<a href="/users/logout" class="btn btn-secondary">Create a New Post</a>
+<a href="/posts/new" class="btn btn-secondary">Create a New Post</a>
 
 <div class="container">
-    {{#each people}}
+    {{#each post}}
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="..." alt="Card image cap">
         <div class="card-body">

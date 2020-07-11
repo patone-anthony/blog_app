@@ -25,9 +25,9 @@ require("./config/passport")(passport);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+// // Passport middleware
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Method Override
 app.use(
@@ -93,15 +93,12 @@ app.use(passport.session());
 // Set global var
 app.use(function (req, res, next) {
   res.locals.user = req.user || null;
-  // res.locals.username = req.user.username || null;
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
-  console.log(typeof req.user);
   next();
 });
 
-// Routes
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/posts", require("./routes/posts"));
