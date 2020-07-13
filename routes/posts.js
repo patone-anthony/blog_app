@@ -4,19 +4,11 @@ const { ensureAuthenticated } = require("../middleware/auth");
 
 const Post = require("../models/Post");
 
-// @desc    Add Post page
-// @route   GET /posts/add
-router.get("/new", ensureAuthenticated, (req, res) => {
-  res.render("posts/new");
-});
-
-// @desc    Process add form
-// @route   POST /stories
+// @desc    User's posts
+// @route   POST /
 router.post("/", ensureAuthenticated, async (req, res) => {
   try {
-    console.log(req.user.username);
-    req.body.user = req.user.username;
-    console.log(req.body);
+    req.body.user = req.user._id;
     await Post.create(req.body);
     res.redirect("/posts/" + req.user.username);
   } catch (err) {
@@ -25,11 +17,30 @@ router.post("/", ensureAuthenticated, async (req, res) => {
   }
 });
 
+// @desc    User's posts
+// @route   POST /
+router.post("/", ensureAuthenticated, async (req, res) => {
+  try {
+    req.body.user = req.user._id;
+    await Post.create(req.body);
+    res.redirect("/posts/" + req.user.username);
+  } catch (err) {
+    console.error(err);
+    res.render("error/error");
+  }
+});
+
+// @desc    Add Post
+// @route   GET /posts/add
+router.get("/new", ensureAuthenticated, (req, res) => {
+  res.render("posts/new");
+});
+
 //@desc   User's posts
 // @route   Get /posts/:username
 router.get("/:username", ensureAuthenticated, async (req, res) => {
   try {
-    const posts = await Post.find({ username: req.body.username }).lean();
+    let posts = await Post.find({ username: req.body.username }).lean();
     res.render("myposts", {
       username: req.user.username,
       posts: "Test post",
@@ -40,10 +51,49 @@ router.get("/:username", ensureAuthenticated, async (req, res) => {
   }
 });
 
-// @desc    Show add page
-// @route   POST /posts/add
-// router.post('/add', ensureAuthenticated, (req, res) => {
-//   res.render('posts/add')
-// })
+//@desc   Edit posts
+// @route   Get /posts/:username
+router.get("/edit/:id", ensureAuthenticated, async (req, res) => {
+  try {
+    let post = await Post.findById(req.params._id).lean();
+    res.render("posts/edit", {
+      post,
+    });
+    if (!post) {
+      return res.render("error/error");
+    }
+
+    if (post.user != req.user.id) {
+      res.redirect("/myposts");
+    } else {
+      res.render("posts/edit", {
+        post,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/error");
+  }
+});
+
+//@desc   Post  detail
+// @route   Get /posts/:username
+router.get("/detail/:id", async (req, res) => {
+  try {
+    let post = await Post.findById(req.params.id).populate("user").lean();
+    console.log(post);
+
+    if (!post) {
+      return res.render("error/error");
+    } else {
+      res.render("posts/detail", {
+        post,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/error");
+  }
+});
 
 module.exports = router;

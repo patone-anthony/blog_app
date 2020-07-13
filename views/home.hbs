@@ -1,1 +1,16 @@
-<h6>Welcome to the homepage {{username}}</h6>
+<div class="flex-post">
+
+    {{#each posts}}
+    <div class="card" style="width: 18rem;">
+        {{!-- <img class="card-img-top" src="..."> --}}
+        <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">By {{user.username}}</p>
+            <a href="posts/detail/{{_id}}" class="btn btn-primary">Read More</a>
+        </div>
+    </div>
+    {{/each}}
+    <i class="card-holder" aria-hidden='true'></i>
+    <i class="card-holder" aria-hidden='true'></i>
+
+</div>

@@ -1,0 +1,16 @@
+{{log post}}
+
+{{!-- <small>{{{editIcon post.user user post._id false}}}</small> --}}
+{{!-- <small>{{post._id}}</small> --}}
+<div class="post-detail-container">
+    <h3 class="text-center py-2">{{post.title}}</h3>
+    <div class="post-body py-2">
+        {{{post.body}}}
+    </div>
+    <div class="post-date py-2">
+        <span class="">Post on: {{formatDate date 'MMMM Do YYYY, h:mm:ss a'}}</span>
+    </div>
+    <div class="post-author py-2">
+        By <a href="/posts/user/{{post.user._id}}">{{post.user.username}}</a>
+    </div>
+</div>
