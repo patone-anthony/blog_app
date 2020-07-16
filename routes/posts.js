@@ -40,10 +40,9 @@ router.get("/new", ensureAuthenticated, (req, res) => {
 // @route   Get /posts/:username
 router.get("/:username", ensureAuthenticated, async (req, res) => {
   try {
-    let posts = await Post.find({ username: req.body.username }).lean();
-    res.render("myposts", {
-      username: req.user.username,
-      posts: "Test post",
+    const posts = await Post.find({ user: req.user._id }).lean();
+    res.render("posts/myposts", {
+      posts,
     });
   } catch (err) {
     console.error(err);
@@ -52,23 +51,48 @@ router.get("/:username", ensureAuthenticated, async (req, res) => {
 });
 
 //@desc   Edit posts
-// @route   Get /posts/:username
+// @route   Get /posts/:id
 router.get("/edit/:id", ensureAuthenticated, async (req, res) => {
   try {
-    let post = await Post.findById(req.params._id).lean();
-    res.render("posts/edit", {
-      post,
-    });
+    const post = await Post.findById(req.params.id).populate("user").lean();
+
     if (!post) {
       return res.render("error/error");
     }
 
-    if (post.user != req.user.id) {
-      res.redirect("/myposts");
+    if (post.user._id.toString() != req.user._id.toString()) {
+      return res.redirect("posts");
     } else {
-      res.render("posts/edit", {
+      return res.render("posts/edit", {
         post,
       });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/error");
+  }
+});
+
+//@desc   Update post
+// @route   PUT /posts/:id
+router.put("/edit/:id", ensureAuthenticated, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).populate("user").lean();
+
+    if (!post) {
+      return res.render("error/error");
+    }
+
+    if (post.user._id.toString() != req.user._id.toString()) {
+      return res.redirect("posts");
+    } else {
+      post = await Story.findOneAndUpdate({ _id: req.params.id }, req.body, {
+        new: true,
+        runValidators: true,
+      });
+      console.log("post updated");
+
+      res.redirect("/posts/" + req.user.username);
     }
   } catch (err) {
     console.error(err);
@@ -80,9 +104,7 @@ router.get("/edit/:id", ensureAuthenticated, async (req, res) => {
 // @route   Get /posts/:username
 router.get("/detail/:id", async (req, res) => {
   try {
-    let post = await Post.findById(req.params.id).populate("user").lean();
-    console.log(post);
-
+    const post = await Post.findById(req.params.id).populate("user").lean();
     if (!post) {
       return res.render("error/error");
     } else {

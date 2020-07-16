@@ -26,19 +26,19 @@
 
 
 <div class="center_div py-2">
-    <div class="post-container">
+    <div class="post-container bg-light">
         <h3>Edit Post</h3>
         <div class="row">
-            <form action="/posts/{{post._id}}" method="POST" class="col s12">
+            <form action="/posts/edit/{{post._id}}" method="POST" class="col s12">
                 <div class="row">
                     <div class="input-field post-title py-1">
                         <label for="title">Title</label>
-                        <input type="text" id="title" name="title" value="{{posts.title}}">
+                        <input type="text" id="title" name="title" value="{{post.title}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field text-area py-1">
-                        <textarea id="body" name="body">{{posts.body}}</textarea>
+                        <textarea id="body" name="body">{{post.body}}</textarea>
                     </div>
                 </div>
 

@@ -8,9 +8,9 @@
         {{{post.body}}}
     </div>
     <div class="post-date py-2">
-        <span class="">Post on: {{formatDate date 'MMMM Do YYYY, h:mm:ss a'}}</span>
+        <span class="">Posted on: {{formatDate post.createAt 'MMMM Do YYYY, h:mm:ss a'}}</span>
     </div>
     <div class="post-author py-2">
-        By <a href="/posts/user/{{post.user._id}}">{{post.user.username}}</a>
+        By <a class="link" href="/posts/user/{{post.user._id}}">{{post.user.username}}</a>
     </div>
 </div>

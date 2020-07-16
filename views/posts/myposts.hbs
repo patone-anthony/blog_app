@@ -1,16 +1,20 @@
-<div class="flex-post py-2">
+<h6 class="lead py-2">Welcome {{user.username}}</h6>
+<a href="/posts/new" class="btn btn-primary">Create a New Post</a>
+<h6 class="mt-4">Your posts</h6>
 
+
+<div class="flex-post py-2">
     {{#each posts}}
     <div class="card">
         {{!-- <img class="card-img-top" src="..."> --}}
         <div class="card-body">
             <h5 class="card-title">{{title}}</h5>
-            <p class="card-text">By {{user.username}}</p>
+            <p class="card-text">By {{../user.username}}</p>
             <a href="posts/detail/{{_id}}" class="btn btn-primary">Read More</a>
+            <a href="edit/{{_id}}" class="text-right text-danger m-2">Edit/Delete</a>
         </div>
     </div>
     {{/each}}
     <i class="card-holder" aria-hidden='true'></i>
     <i class="card-holder" aria-hidden='true'></i>
-
 </div>
