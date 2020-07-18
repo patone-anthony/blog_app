@@ -5,7 +5,7 @@ const { ensureAuthenticated } = require("../middleware/auth");
 const Post = require("../models/Post");
 // const User = require("../models/User");
 
-//@desc   Homepage (all public stories)
+//@desc   Homepage
 // @route   Get /
 router.get("/", async (req, res) => {
   try {

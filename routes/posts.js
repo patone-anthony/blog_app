@@ -40,8 +40,12 @@ router.get("/new", ensureAuthenticated, (req, res) => {
 // @route   Get /posts/:username
 router.get("/:username", ensureAuthenticated, async (req, res) => {
   try {
-    const posts = await Post.find({ user: req.user._id }).lean();
-    res.render("posts/myposts", {
+    console.log(req);
+
+    const posts = await Post.find({ user: req.user._id })
+      .sort({ createdAt: "descending" })
+      .lean();
+    res.render("posts/user", {
       posts,
     });
   } catch (err) {
@@ -77,7 +81,7 @@ router.get("/edit/:id", ensureAuthenticated, async (req, res) => {
 // @route   PUT /posts/:id
 router.put("/edit/:id", ensureAuthenticated, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate("user").lean();
+    let post = await Post.findById(req.params.id).populate("user").lean();
 
     if (!post) {
       return res.render("error/error");
@@ -86,7 +90,7 @@ router.put("/edit/:id", ensureAuthenticated, async (req, res) => {
     if (post.user._id.toString() != req.user._id.toString()) {
       return res.redirect("posts");
     } else {
-      post = await Story.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      post = await Post.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true,
         runValidators: true,
       });
