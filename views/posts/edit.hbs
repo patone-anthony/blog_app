@@ -1,30 +1,3 @@
-{{!-- <h3>Edit Post</h3>
-<div class="row">
-    <form action="/posts/{{post._id}}" method="POST" class="col s12">
-        <input type="hidden" name="_method" value="PUT">
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="title" value="{{post.title}}">
-                <label for="title">Title</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <h5>Tell Us Your post:</h5>
-                <textarea id="body" name="body">{{post.body}}</textarea>
-            </div>
-        </div>
-
-        <div class="row">
-            <input type="submit" value="Save" class="btn">
-            <a href="/dashboard" class="btn orange">Cancel</a>
-        </div>
-    </form>
-</div>
- --}}
-
-
 <div class="center_div py-2">
     <div class="post-container bg-light">
         <h3>Edit Post</h3>
@@ -46,9 +19,14 @@
                 <div class="row">
                     <input type="submit" value="Save" class="btn btn-primary m-1">
                     <a href="/posts/{{user._id}}" class="btn btn-secondary m-1">Cancel</a>
-                    <a href="/posts/{{user._id}}" class="btn btn-danger m-1">Delete</a>
-                </div>
+            </form>
+
+            <form action="/posts/delete/{{post._id}}" method="POST" id="delete-form">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-danger m-1">Delete</button>
             </form>
         </div>
+
     </div>
+</div>
 </div>

@@ -1,4 +1,4 @@
-<div class="my-3">
+<div class="new-post-container my-3">
     <a href="/posts/new" class="btn nav-btn">Create a New Post</a>
 </div>
 <div class="flex-post p-1">
@@ -9,7 +9,7 @@
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text">By {{../user.username}}</p>
             <a href="posts/detail/{{_id}}" class="btn btn-primary">Read More</a>
-            <a href="edit/{{_id}}" class="text-right text-danger m-2">Edit/Delete</a>
+            <a href="edit/{{_id}}" class="btn btn-secondary m-2">Edit/Delete</a>
         </div>
     </div>
     {{/each}}

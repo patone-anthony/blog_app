@@ -17,19 +17,6 @@ router.post("/", ensureAuthenticated, async (req, res) => {
   }
 });
 
-// @desc    User's posts
-// @route   POST /
-router.post("/", ensureAuthenticated, async (req, res) => {
-  try {
-    req.body.user = req.user._id;
-    await Post.create(req.body);
-    res.redirect("/posts/" + req.user.username);
-  } catch (err) {
-    console.error(err);
-    res.render("error/error");
-  }
-});
-
 // @desc    Add Post
 // @route   GET /posts/add
 router.get("/new", ensureAuthenticated, (req, res) => {
@@ -40,9 +27,7 @@ router.get("/new", ensureAuthenticated, (req, res) => {
 // @route   Get /posts/:username
 router.get("/:username", ensureAuthenticated, async (req, res) => {
   try {
-    console.log(req);
-
-    const posts = await Post.find({ user: req.user._id })
+    let posts = await Post.find({ user: req.user._id })
       .sort({ createdAt: "descending" })
       .lean();
     res.render("posts/user", {
@@ -94,7 +79,6 @@ router.put("/edit/:id", ensureAuthenticated, async (req, res) => {
         new: true,
         runValidators: true,
       });
-      console.log("post updated");
 
       res.redirect("/posts/" + req.user.username);
     }
@@ -115,6 +99,29 @@ router.get("/detail/:id", async (req, res) => {
       res.render("posts/detail", {
         post,
       });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/error");
+  }
+});
+
+// @desc    Delete post
+// @route   DELETE /post/:id
+router.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
+  try {
+    let post = await Post.findById(req.params.id).lean();
+    console.log(post);
+    if (!post) {
+      return res.render("error/error");
+    }
+
+    if (post.user._id.toString() != req.user._id.toString()) {
+      console.log(`${post.user._id}  {req.user._id}`);
+      res.redirect("/posts/" + req.user.username);
+    } else {
+      await Post.remove({ _id: req.params.id });
+      res.redirect("/posts/" + req.user.username);
     }
   } catch (err) {
     console.error(err);
