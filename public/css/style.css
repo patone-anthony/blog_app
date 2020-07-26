@@ -21,8 +21,8 @@ a:hover {
 
 .container {
   min-height: 100%;
-  margin-bottom: -280px;
-  padding-bottom: 280px;
+  margin-bottom: -200px;
+  padding-bottom: 200px;
 }
 
 .flex-post {
@@ -57,7 +57,7 @@ footer {
   bottom: 0; */
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 280px;
+  height: 200px;
   background-color: #f5f5f5;
   padding-top: 20px;
 }
@@ -303,8 +303,8 @@ footer {
 
   .container {
     min-height: 100%;
-    margin-bottom: -461px;
-    padding-bottom: 461px;
+    margin-bottom: -361px;
+    padding-bottom: 361px;
   }
 
   .post-date {
@@ -316,7 +316,7 @@ footer {
     bottom: 0; */
     width: 100%;
     /* Set the fixed height of the footer here */
-    height: 461px;
+    height: 361px;
     background-color: #f5f5f5;
   }
 }
