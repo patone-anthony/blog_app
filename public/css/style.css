@@ -20,7 +20,7 @@ a:hover {
 }
 
 .container {
-  min-height: 100%;
+  min-height: 90%;
   margin-bottom: -200px;
   padding-bottom: 200px;
 }
