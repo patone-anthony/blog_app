@@ -27,9 +27,7 @@ router.get("/new", ensureAuthenticated, (req, res) => {
 // @route   Get /posts/:username
 router.get("/:username", ensureAuthenticated, async (req, res) => {
   try {
-    let posts = await Post.find({ user: req.user._id })
-      .sort({ createdAt: "descending" })
-      .lean();
+    let posts = await Post.find({ user: req.user._id }).sort({ createdAt: "descending" }).lean();
     res.render("posts/user", {
       posts,
     });
@@ -121,6 +119,7 @@ router.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
       res.redirect("/posts/" + req.user.username);
     } else {
       await Post.remove({ _id: req.params.id });
+      req.flash("success_msg", "Post deleted");
       res.redirect("/posts/" + req.user.username);
     }
   } catch (err) {

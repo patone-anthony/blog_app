@@ -25,10 +25,6 @@ require("./config/passport")(passport);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// // Passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 // Method Override
 app.use(
   methodOverride(function (req, res) {
@@ -47,13 +43,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Handlebar Helpers
-const {
-  formatDate,
-  stripTags,
-  truncate,
-  editIcon,
-  select,
-} = require("./helpers/hbs");
+const { formatDate } = require("./helpers/hbs");
 
 // Handlebars
 app.engine(
@@ -61,10 +51,6 @@ app.engine(
   exphbs({
     helpers: {
       formatDate,
-      stripTags,
-      truncate,
-      editIcon,
-      select,
     },
     defaultLayout: "main",
     extname: ".hbs",
